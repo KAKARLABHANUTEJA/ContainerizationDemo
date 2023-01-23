@@ -22,14 +22,18 @@ on:
     #- cron: '45 18 * * 0'
 
 jobs:
-  analyze:
-    name: Analyze
-    runs-on: ubuntu-latest
+  codel_build:
+    # name: Analyze
+    runs-on: [self-hosted, linu, ets]
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
 
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'java' ]
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     language: [ 'java' ]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python' ]
         # Learn more...
         # https://docs.github.com/en/github/finding-security-vulnerabilities-and-errors-in-your-code/configuring-code-scanning#overriding-automatic-language-detection
