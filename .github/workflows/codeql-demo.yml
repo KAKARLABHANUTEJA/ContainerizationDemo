@@ -24,7 +24,7 @@ on:
 jobs:
   codel_build:
     # name: Analyze
-    runs-on: [self-hosted, linu, ets]
+    runs-on: [self-hosted, linux, ets]
     permissions:
       security-events: write
       actions: read
