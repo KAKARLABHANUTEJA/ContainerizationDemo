@@ -3,7 +3,7 @@ web Application for 6130 Project
 
 
 Steps to setup the container running in local:
- 1. By Building the image from scratch in local
+ 1. Building the image from scratch in local
     i) clone the this repo in your local
     ii) build the code using mvn install or mvn build commands
     iii) Open powershell in the current code repository folder and run "docker build ." or "docker build -t <image_name> ."
