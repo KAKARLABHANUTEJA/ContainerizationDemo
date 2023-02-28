@@ -7,5 +7,19 @@ ENV ARTIFACT_NAME=demo-0.0.1-SNAPSHOT.jar
 # RUN mvn build
 # RUN mvn clean install -DskipTests
 RUN mvn clean install 
+# RUN useradd -ms /bin/bash newuser
+# USER newuser
+
+# Create a user group '6130group'
+RUN addgroup -S 6130group
+
+# Create a user 'appuser' under 'xyzgroup'
+RUN adduser -S -D -h /usr/app/src appuser 6130group
+
+# Chown all the files to the app user.
+RUN chown -R appuser:6130group /usr/app
+
+# Switch to 'appuser'
+USER appuser
 EXPOSE 8080
 ENTRYPOINT java -jar ./target/demo-0.0.1-SNAPSHOT.jar
