@@ -1,20 +1,57 @@
-name: Snyk CI
+name: Snyk Scan
 
+# on:
+#   push:
+#     branches: ["main"]
+#   pull_request:
+#     branches: ["main"]
 on:
-  push:
-    branches: ["main"]
+  workflow_dispatch:
+  workflow_call:
   pull_request:
-    branches: ["main"]
+    branches: [ main ]
 
-jobs:
+permissions:
+  contents: read
+  packages: write
+  security-events: write
+  actions: read
+
+# jobs:
   ## other jobs ...
-  security:
-    runs-on: ubuntu-latest
+  # security:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@master
+  #     - name: Run Snyk to check for vulnerabilities
+  #       uses: snyk/actions/node@master
+  #       env:
+  #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  #       with:
+  #         args: --severity-threshold=high
+jobs:
+  SnykScan:
+    name: Create and scan
+    runs-on: [self-hosted, Linux]
     steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        env:
+      - name: Code Checkout
+        uses: actions/checkout@v2
+
+      - name: Creating docker image
+        uses: docker/build-push-action@v2
+
+      - name: Scan App image
+        id: scan
+        uses: snyk/actions/docker@master
+        continue-on-error: true
+        env: 
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --severity-threshold=high
+          # image: 
+          args: --file=Dockerfile
+
+      - name: uplpoad result to GitHub Code scanning
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: snyk.sarif
+
