@@ -32,7 +32,7 @@ permissions:
 jobs:
   SnykScan:
     name: Create and scan
-    runs-on: [self-hosted, Linux]
+    runs-on: [ self-hosted, Linux, ubuntu-latest ]
     steps:
       - name: Code Checkout
         uses: actions/checkout@v2
