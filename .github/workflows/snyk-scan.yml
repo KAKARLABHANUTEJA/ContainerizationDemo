@@ -48,7 +48,7 @@ jobs:
         env: 
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          # image: 
+          image: bhanuteja8339/sample_demo_app_6130:latest
           args: --file=Dockerfile
 
       - name: uplpoad result to GitHub Code scanning
